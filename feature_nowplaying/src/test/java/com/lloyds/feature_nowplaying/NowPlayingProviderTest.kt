@@ -4,7 +4,6 @@ import androidx.paging.AsyncPagingDataDiffer
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListUpdateCallback
-import app.cash.turbine.test
 import com.example.domain.entity.Movies
 import com.example.domain.entity.NetworkMovie
 import com.example.domain.usecase.NowPlayingUseCase
@@ -16,24 +15,21 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.TestScope
-import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
 import retrofit2.Response
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class NowPlayingRepositoryTest {
+class NowPlayingProviderTest {
 
     @MockK
     private lateinit var nowPlayingUseCase: NowPlayingUseCase
-    private lateinit var nowPlayingRepository: NowPlayingRepository
+    private lateinit var nowPlayingProvider: NowPlayingProvider
     private val testDispatcher = StandardTestDispatcher()
 //    private val testScope = TestScope(testDispatcher)
 
@@ -41,7 +37,7 @@ class NowPlayingRepositoryTest {
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
         nowPlayingUseCase = mockk()
-        nowPlayingRepository = NowPlayingRepository(nowPlayingUseCase)
+        nowPlayingProvider = NowPlayingProvider(nowPlayingUseCase)
     }
 
     @After
@@ -68,7 +64,7 @@ class NowPlayingRepositoryTest {
         val response = Response.success(mockedMovies)
         coEvery { nowPlayingUseCase(any()) }.returns(response)
 
-        val result = nowPlayingRepository.nowPlaying().first()
+        val result = nowPlayingProvider.nowPlaying().first()
 
         val differ = AsyncPagingDataDiffer(
             diffCallback = object : DiffUtil.ItemCallback<NetworkMovie>() {

@@ -1,7 +1,7 @@
 package com.lloyds.feature_nowplaying.di
 
 import com.example.domain.usecase.NowPlayingUseCase
-import com.lloyds.feature_nowplaying.NowPlayingRepository
+import com.lloyds.feature_nowplaying.NowPlayingProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,9 +14,9 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideNowPlayingRepository(
+    fun provideNowPlayingProvider(
         nowPlayingUseCase: NowPlayingUseCase
-    ): NowPlayingRepository {
-        return NowPlayingRepository(nowPlayingUseCase)
+    ): NowPlayingProvider {
+        return NowPlayingProvider(nowPlayingUseCase)
     }
 }

@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 
-class NowPlayingRepository @Inject constructor(
+class NowPlayingProvider @Inject constructor(
     private val nowPlayingUseCase: NowPlayingUseCase
 ) {
 
